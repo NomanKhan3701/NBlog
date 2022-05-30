@@ -5,7 +5,6 @@ import axios from "axios";
 import "./YourPost.scss";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
-
 const YourPost = () => {
   return (
     <div className="your-post">

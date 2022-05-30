@@ -5,7 +5,7 @@ import "./App.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
-import UserDashboard from "./pages/UserDashboard/Userdashboard";
+import UserDashboard from "./pages/UserProfile/UserProfile";
 import Navbar from "./components/Navbar/Navbar";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
