@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import Post from "./pages/post/Post";
 import "./App.css";
@@ -13,13 +13,18 @@ import YourPost from "./pages/YourPost/YourPost";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("blogUser")) setLoggedIn(true);
+  }, []);
 
   return (
     <div className="App">
-      <Navbar />
+      <Navbar loggedIn={loggedIn} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/yourpost" element={<YourPost/>}/>
+        <Route path="/yourpost" element={<YourPost />} />
         <Route path="/post/:id" element={<Post />} />
         <Route path="/profile" element={<UserDashboard />} />
         <Route path="/about" element={<About />} />

@@ -3,10 +3,12 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.scss";
+import { useNavigate } from "react-router";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
-
 const Login = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     username: "",
     password: "",
@@ -25,7 +27,31 @@ const Login = () => {
   const login = () => {
     if (loginInfo.username === "" || loginInfo.password === "")
       toast.error("Fields cannot be empty.", { position: "top-center" });
+    else {
+      setLoading(true);
+      axios
+        .post(`${server_base_url}/user/login`, {
+          name: loginInfo.username,
+          password: loginInfo.password,
+        })
+        .then((res) => {
+          localStorage.setItem("blogUser", res.data.user[0]._id);
+          setLoading(false);
+          navigate("/");
+        })
+        .catch((e) => {
+          setLoading(false);
+          console.log(e);
+          toast.error("No user with given credentials", {
+            position: "top-center",
+          });
+        });
+    }
   };
+
+  if (loading) {
+    return <h1>Loding...</h1>;
+  }
 
   return (
     <>

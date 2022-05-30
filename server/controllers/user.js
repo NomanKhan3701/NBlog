@@ -22,6 +22,23 @@ const getUser = async (req, res) => {
     res.status(400).send({ message: "error" });
   }
 };
+
+const login = async (req, res) => {
+  try {
+    const { name, password } = req.body;
+    const user = await User.find({ name: name });
+
+    if (user.length === 0)
+      return res.status(400).send({ message: "User dosent exist" });
+    if (!bcrypt.compareSync(String(password), user[0].password))
+      return res.status(400).send({ message: "Password dosent match" });
+    res.status(200).send({ user });
+  } catch (e) {
+    console.log(e);
+    res.status(400).send({ message: "error" });
+  }
+};
+
 const getUserImage = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -97,4 +114,5 @@ module.exports = {
   updatePassword,
   getUserImage,
   addUserImage,
+  login,
 };
