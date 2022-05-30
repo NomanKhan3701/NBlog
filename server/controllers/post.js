@@ -69,13 +69,13 @@ const updateLike = async (req, res) => {
     const post = await Post.findById(postId);
     const user = await User.findById(userId);
     if (user === null || post === null) {
-      res.status(400).send({ message: "Not valid params" });
+      return res.status(400).send({ message: "Not valid params" });
     } else if (post.like.includes(userId)) {
       post.like = post.like.filter((idOfUser) => {
         return idOfUser != userId;
       });
       await post.save();
-      res.status(200).send({ message: "UnLiked the post" });
+      return res.status(200).send({ message: "UnLiked the post" });
     } else {
       post.like.push(userId);
       await post.save();
@@ -93,13 +93,13 @@ const addBookmark = async (req, res) => {
     const post = await Post.findById(postId);
     const user = await User.findById(userId);
     if (user === null || post === null) {
-      res.status(400).send({ message: "Not valid params" });
+      return res.status(400).send({ message: "Not valid params" });
     } else if (user.bookmark.includes(postId)) {
       user.bookmark = user.bookmark.filter((idOfPost) => {
         return idOfPost != postId;
       });
       await user.save();
-      res.status(200).send({ message: "Bookmark removed" });
+      return res.status(200).send({ message: "Bookmark removed" });
     } else {
       user.bookmark.push(postId);
       await user.save();
@@ -123,7 +123,7 @@ const deletePost = async (req, res) => {
     });
 
     if (user === null || post === null || comments === null) {
-      res.status(400).send("Invalid params");
+      return res.status(400).send("Invalid params");
     }
 
     user.posts = user.posts.filter((post) => {

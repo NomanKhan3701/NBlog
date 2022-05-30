@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./Signup.scss";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router";
+import axios from "axios";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
-
 const Signup = () => {
+  const navigate = useNavigate();
   const [signupInfo, setSignUpInfo] = useState({
     username: "",
     password: "",
@@ -32,10 +34,30 @@ const Signup = () => {
       return;
     }
     if (signupInfo.password != signupInfo.confirmPassword) {
-      toast.error("Password not equal to confirm password", { position: "top-center" });
+      toast.error("Password not equal to confirm password", {
+        position: "top-center",
+      });
       return;
+    } else {
+      axios
+        .post(`${server_base_url}/user/createUser`, {
+          name: signupInfo.username,
+          password: signupInfo.password,
+        })
+        .then((response) => {
+          console.log(response);
+          navigate("/login");
+        })
+        .catch((e) => {
+          if (e.response.status === 409) {
+            toast.error("Username already exist", {
+              position: "top-center",
+            });
+          } else {
+            console.log(e);
+          }
+        });
     }
-
   };
 
   return (

@@ -10,6 +10,9 @@ const cors = require("cors");
 
 dotenv.config();
 const PORT = process.env.PORT || 8000;
+const corsOptions={
+  "origin":"*",
+}
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
