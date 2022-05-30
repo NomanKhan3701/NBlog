@@ -1,0 +1,45 @@
+.file-upload {
+  margin-bottom: 30px;
+
+  .drop-area {
+    width: 100%;
+    padding: 20px;
+    height: 150px;
+    border: 2px dashed;
+    margin-bottom: 30px;
+
+    span {
+      margin: 15px 0px;
+      color: gray;
+      letter-spacing: 2px;
+    }
+
+    .browse-btn {
+      padding: 5px 15px;
+      background: black;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      width: max-content;
+    }
+
+    &.active {
+      background: rgb(204, 204, 204);
+      border: 2px solid black;
+    }
+  }
+
+  .image-preview {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 30px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    }
+  }
+}

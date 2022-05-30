@@ -1,0 +1,33 @@
+.your-post {
+  padding: 30px 80px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap-reverse;
+  max-width: 100%;
+
+  @media screen and (max-width: 500px) {
+    padding: 30px 10px;
+  }
+
+  @media screen and (max-width: 1200px) {
+    padding: 30px 40px;
+  }
+
+  .posts-container {
+    width: calc(100% - 400px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    place-items: center;
+    grid-gap: 20px;
+
+    @media screen and (max-width: 950px) {
+      margin-top: 40px;
+      width: 100%;
+    }
+  }
+
+  .create-post-container {
+    width: 400px;
+    min-width: 200px;
+  }
+}

@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding-top: 80px;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+}
+
+img {
+  background: rgb(222, 222, 222);
+}
+
+.i {
+  cursor: pointer;
+}
+
+.flex-cc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-cc {
+  display: grid;
+  place-items: center;
+}
+
+.btn {
+  cursor: pointer;
+}
