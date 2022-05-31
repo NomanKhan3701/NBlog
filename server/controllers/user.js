@@ -100,7 +100,21 @@ const addUserImage = async (req, res) => {
     const user = await User.findById(userId);
     user.img = img;
     await user.save();
-    res.status(201).send("Image updated of the user");
+    res.status(201).send("Image of the user updated ");
+  } catch (e) {
+    console.log(e);
+    res.status(400).send({ message: "error" });
+  }
+};
+
+const updateUserName = async (req, res) => {
+  try {
+    const { newName } = req.body;
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    user.name = newName;
+    await user.save();
+    res.status(201).send("Name of the user updated ");
   } catch (e) {
     console.log(e);
     res.status(400).send({ message: "error" });
@@ -115,4 +129,5 @@ module.exports = {
   getUserImage,
   addUserImage,
   login,
+  updateUserName,
 };

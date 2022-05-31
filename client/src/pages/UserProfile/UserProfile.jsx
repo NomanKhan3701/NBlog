@@ -10,7 +10,7 @@ const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 const UserDashboard = () => {
   const [prevImg, setPrevImg] = useState("");
-  const [name, setName] = useState();
+  const [newName, setNewName] = useState("");
   const [toggleName, setToggleName] = useState(false);
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
@@ -26,20 +26,37 @@ const UserDashboard = () => {
   }, []);
 
   const updateImage = () => {
-    if (prevImg === "") return;
+    if (prevImg === "" || prevImg === userInfo.img) return;
     axios
       .patch(`${server_base_url}/user/addUserImage/${userInfo.id}`, {
         img: prevImg,
       })
       .then((res) => {
         console.log(res);
-        window.location.reload(false);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
-  const saveChanges = () => {
-    updateImage();
+  const updateUserName = () => {
+    if (newName === "" || newName === userInfo.name) return;
+    axios
+      .patch(`${server_base_url}/user/updatename/${userInfo.id}`, {
+        newName: newName,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const saveChanges = async () => {
+    await updateImage();
+    await updateUserName();
+    window.location.reload(false);
   };
 
   useEffect(() => {
@@ -48,7 +65,7 @@ const UserDashboard = () => {
       .get(`${server_base_url}/user/${userId}`)
       .then((res) => {
         const user = res.data.user;
-        setName(user.name);
+        setNewName(user.name);
         setUserInfo({ id: userId, name: user.name, img: user.img });
       })
       .catch((e) => console.log("error --> ", e));
@@ -68,8 +85,8 @@ const UserDashboard = () => {
             </div>
             {toggleName ? (
               <input
-                onChange={(e) => setName(e.target.value)}
-                value={name}
+                onChange={(e) => setNewName(e.target.value)}
+                value={newName}
                 placeholder="new name.."
               />
             ) : (
@@ -106,109 +123,115 @@ const UserDashboard = () => {
 };
 
 export const Bookmarked = () => {
-  return <div className="bookmarked-container">
+  return (
+    <div className="bookmarked-container">
       <PostCard
-          title="My first blog, hope its good"
-          desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
         Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-          img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-          like={0}
-        />
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
       <PostCard
-          title="My first blog, hope its good"
-          desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
         Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-          img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-          like={0}
-        />
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
       <PostCard
-          title="My first blog, hope its good"
-          desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
         Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-          img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-          like={0}
-        />
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
       <PostCard
-          title="My first blog, hope its good"
-          desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
         Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-          img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-          like={0}
-        />
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
       <PostCard
-          title="My first blog, hope its good"
-          desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
         Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-          img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-          like={0}
-        />
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
       <PostCard
-          title="My first blog, hope its good"
-          desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
         Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-          img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-          like={0}
-        />
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
       <PostCard
-          title="My first blog, hope its good"
-          desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
         Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-          img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-          like={0}
-        />
-  </div>;
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
+    </div>
+  );
 };
 
 export const Liked = () => {
-  return <div className="liked-container"><PostCard
-  title="My first blog, hope its good"
-  desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+  return (
+    <div className="liked-container">
+      <PostCard
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
 Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-  img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-  like={0}
-/>
-<PostCard
-  title="My first blog, hope its good"
-  desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
+      <PostCard
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
 Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-  img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-  like={0}
-/>
-<PostCard
-  title="My first blog, hope its good"
-  desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
+      <PostCard
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
 Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-  img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-  like={0}
-/>
-<PostCard
-  title="My first blog, hope its good"
-  desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
+      <PostCard
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
 Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-  img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-  like={0}
-/>
-<PostCard
-  title="My first blog, hope its good"
-  desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
+      <PostCard
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
 Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-  img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-  like={0}
-/>
-<PostCard
-  title="My first blog, hope its good"
-  desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
+      <PostCard
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
 Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-  img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-  like={0}
-/>
-<PostCard
-  title="My first blog, hope its good"
-  desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
+      <PostCard
+        title="My first blog, hope its good"
+        desc=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea iure explicabo repellat? Officia cum nostrum animi ut minus debitis consequatur, rem obcaecati similique consectetur officiis tempore, illo ipsam veritatis quis.
 Repudiandae ipsam aspernatur earum commodi consectetur nemo dolores sunt corporis repellendus reprehenderit obcaecati voluptatibus aliquam, laborum praesentium neque.   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nulla ipsa commodi veritatis at nostrum dolores magnam, quos deleniti cupiditate esse eius temporibus, corrupti doloribus iste tempora, architecto quisquam vero."
-  img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
-  like={0}
-/></div>;
+        img="https://i.pinimg.com/474x/ce/74/f2/ce74f24391fd633ef41ae68faf477289.jpg"
+        like={0}
+      />
+    </div>
+  );
 };
 
 export default UserDashboard;

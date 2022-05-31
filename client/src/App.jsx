@@ -14,6 +14,7 @@ import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 import YourPost from "./pages/YourPost/YourPost";
 import axios from "axios";
+import Loader from "./components/Loader/Loader";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/loader" element={<Loader />} />
       </Routes>
     </div>
   );
