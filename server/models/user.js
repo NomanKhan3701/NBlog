@@ -10,11 +10,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  posts: {
+    type: [String],
+    default: [],
+  },
   img: {
     type: String,
   },
   bookmark: {
-    type: Array,
+    type: [String],
+    default: [],
   },
   createdAt: {
     type: Date,

@@ -5,19 +5,21 @@ import { BiLike, BiComment } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import LimitChar from "../LimitChar/LimitChar";
+import { Link } from "react-router-dom";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
-
-
 
 const PostCard = (props) => {
   return (
     <div className="post-card">
-      <div className="img">
-        <img src={props.img} alt="" />
-        <div className="title">{props.title}</div>
-      </div>
+      <Link to={`/post/${props.id}`}>
+        <div className="img">
+          <img src={props.img} alt="" />
+          <div className="title">{props.title}</div>
+        </div>
+      </Link>
+
       <div className="desc">
-        <LimitChar word={props.desc} limit={250} />
+        <LimitChar word={props.desc} limit={170} />
       </div>
       <div className="card-bottom flex-cc">
         <div className="left flex-cc">

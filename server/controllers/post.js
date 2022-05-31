@@ -24,16 +24,51 @@ const getPost = async (req, res) => {
   }
 };
 
+const getUserPost = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const posts = await Post.find({ createdBy: userId });
+    res.status(200).send({ posts });
+  } catch (e) {
+    console.log(e);
+    res.status(400).send({ message: e });
+  }
+};
+
 const getComments = async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Post.findById(postId);
-    const comments = await Comment.find({
+    let comments = await Comment.find({
       _id: {
         $in: post.comment,
       },
     });
-    res.status(200).send({ comments });
+    let Comments = [],
+      Comments2 = [],
+      singleComment = [],
+      replies = [],
+      user = [];
+
+      for(var i=0;i<comments.length;i++){
+        const guy = await User.findById(comments[i].user);
+        user = guy;
+        replies = await Comment.find({
+          _id: {
+            $in: comments[i].reply,
+          },
+        });
+        singleComment = [{ user: user, replies: replies }];
+        Comments.push({
+          user: singleComment[0].user,
+          replies: singleComment[0].replies,
+          desc: comments[i].desc,
+          postedAt: comments[i].postedAt,
+          like: comments[i].like,
+        });
+      }
+    console.log("Comments", Comments);
+    res.status(200).send({ Comments });
   } catch (e) {
     console.log(e);
     res.status(400).send({ message: "error" });
@@ -155,4 +190,5 @@ module.exports = {
   addBookmark,
   updateLike,
   deletePost,
+  getUserPost,
 };

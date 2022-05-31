@@ -11,5 +11,12 @@
     grid-gap: 20px;
     width: 100%;
     margin: 30px 0px;
+
+    .loader {
+      height: calc(100vh - 80px - 30px * 2 - 10px * 2);
+      width: 100%;
+      display: grid;
+      place-items: center;
+    }
   }
 }

@@ -52,7 +52,7 @@ const addComment = async (req, res) => {
   }
 };
 
-const addReply = async () => {
+const addReply = async (req,res) => {
   const { userId, desc } = req.body;
   const commentId = req.params.id;
 

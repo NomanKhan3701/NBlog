@@ -24,10 +24,16 @@
       margin-top: 40px;
       width: 100%;
     }
+
+    @media screen and (max-width: 600px) {
+      grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+      place-items: center;
+      grid-gap: 20px;
+    }
   }
 
   .create-post-container {
     width: 400px;
-    min-width: 200px;
+    min-width: 220px;
   }
 }

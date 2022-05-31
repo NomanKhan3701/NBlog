@@ -1,6 +1,10 @@
 .profile-container {
   display: flex;
 
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+  }
+
   .user-dashboard {
     position: fixed;
     top: 80px;
@@ -12,15 +16,40 @@
     display: flex;
     flex-direction: column;
 
+    @media screen and (max-width: 900px) {
+      position: relative;
+      top: 0;
+      flex-direction: row;
+      height: max-content;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 30px 20px;
+    }
+
+    @media screen and (max-width: 500px) {
+      padding-left: 0px;
+    }
+
     .user-info-container {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
 
+      @media screen and (max-width: 900px) {
+        flex-wrap: wrap;
+      }
+
       .user-info {
         display: grid;
         place-items: center;
+        margin-bottom: 20px;
+
+        @media screen and (max-width: 900px) {
+          width: max-content;
+        }
         .user-img {
           margin-bottom: 20px;
         }
@@ -30,6 +59,11 @@
           border-radius: 10px;
           padding: 5px;
           text-align: center;
+
+          @media screen and (max-width: 900px) {
+            width: 150px;
+            font-size: 20px;
+          }
         }
         .username {
           width: max-content;
@@ -37,6 +71,13 @@
           font-weight: 700;
           position: relative;
           color: white;
+          text-align: center;
+          max-width: 300px;
+          overflow-wrap: break-word;
+
+          @media screen and (max-width: 900px) {
+            font-size: 20px;
+          }
 
           svg {
             position: absolute;
@@ -48,6 +89,20 @@
 
     .links {
       margin: auto;
+
+      @media screen and (max-width: 900px) {
+        margin-bottom: 20px;
+        margin-right: 20px;
+      }
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 60px;
+      }
 
       a {
         .link {
@@ -61,6 +116,12 @@
           cursor: pointer;
           color: white;
           position: relative;
+
+          @media screen and (max-width: 900px) {
+            width: 150px;
+            padding: 10px 20px;
+            border-radius: 60px;
+          }
         }
 
         &.active .link::before {
@@ -73,6 +134,10 @@
           border-radius: 50%;
           box-shadow: 15px 15px white;
           background: black;
+
+          @media screen and (max-width: 900px) {
+            display: none;
+          }
         }
 
         &.active .link::after {
@@ -85,6 +150,10 @@
           border-radius: 50%;
           box-shadow: 15px -15px white;
           background: black;
+
+          @media screen and (max-width: 900px) {
+            display: none;
+          }
         }
 
         &.active .link {
@@ -105,12 +174,20 @@
       font-weight: 600;
       font-size: 18px;
       border-radius: 10px;
+
+      @media screen and (max-width: 900px) {
+        margin: auto;
+      }
     }
   }
 
   .right-container {
     margin-left: 250px;
     width: 100%;
+
+    @media screen and (max-width: 900px) {
+      margin-left: 0px;
+    }
 
     .bookmarked-container {
       display: grid;
@@ -119,15 +196,19 @@
       grid-gap: 20px;
       width: 100%;
       padding: 20px;
+
+      @media screen and (max-width: 900px) {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
     }
 
     .liked-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        place-items: center;
-        grid-gap: 20px;
-        width: 100%;
-        padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      place-items: center;
+      grid-gap: 20px;
+      width: 100%;
+      padding: 20px;
     }
   }
 }

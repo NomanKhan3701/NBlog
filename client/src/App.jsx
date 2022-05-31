@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
-import Post from "./pages/post/Post";
+import Post from "./pages/Post/Post";
 import "./App.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";

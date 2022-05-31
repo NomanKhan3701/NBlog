@@ -3,8 +3,8 @@ import FileUpload from "../FileUpload/FileUpload";
 import "./CreatePost.scss";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
-
 
 const CreatePost = () => {
   const [files, setFiles] = useState([]);
@@ -26,10 +26,29 @@ const CreatePost = () => {
   };
 
   const createPost = () => {
-    toast.error("Fields cannot be empty.", { position: "top-center" });
+    if (post.title === "" || post.desc === "" || post.tags === "") {
+      toast.error("Fields cannot be empty.", { position: "top-center" });
+      return;
+    }
+    const userId = localStorage.getItem("blogUser");
+    if (userId) {
+      const tags = post.tags.split(",").map(function (value) {
+        return value.trim();
+      });
+      axios
+        .post(`${server_base_url}/post/createPost/${userId}`, {
+          title: post.title,
+          desc: post.desc,
+          tags: tags,
+          img: Img,
+        })
+        .then((res) => console.log(res))
+        .catch((e) => console.log(e));
+    }
   };
 
   return (
+
     <>
       <ToastContainer></ToastContainer>
       <form className="create-post">
