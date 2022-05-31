@@ -10,7 +10,7 @@ import { MdMenuBook } from "react-icons/md";
 import userImg from "../../assets/p1.jpg";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
-const Navbar = ({ loggedIn }) => {
+const Navbar = ({ loggedIn, img }) => {
   const [toggle, setToggle] = useState(false);
 
   const NavLinkStyle = ({ isActive }) => {
@@ -46,7 +46,7 @@ const Navbar = ({ loggedIn }) => {
         {loggedIn ? (
           <div className="right-links flex-cc">
             <NavLink style={NavLinkStyle} to="/profile">
-              <img src={userImg} alt="" />
+              <img src={img} alt="" />
             </NavLink>
           </div>
         ) : (
@@ -115,7 +115,7 @@ const Navbar = ({ loggedIn }) => {
             {loggedIn ? (
               <div className="bottom-links">
                 <NavLink className="profile" style={NavLinkStyle} to="/profile">
-                  <img src={userImg} alt="" />
+                  <img src={img} alt="" />
                   <span>Profile</span>
                 </NavLink>
               </div>
