@@ -43,15 +43,29 @@ const getComments = async (req, res) => {
       _id: {
         $in: post.comment,
       },
-    });
+    }).sort({ postedAt: -1 });
     let Comments = [];
-    for (var i = 0; i < comments.length; i++) {
+    for (let i = 0; i < comments.length; i++) {
       const user = await User.findById(comments[i].user);
-      replies = await Comment.find({
+      let replies = [];
+      const reply = await Comment.find({
         _id: {
           $in: comments[i].reply,
         },
-      });
+      }).sort({ postedAt: -1 });
+      console.log(reply);
+      for (let j = 0; j < reply.length; j++) {
+        console.log(j, " ---> ", reply[i]);
+        const replyUser = await User.findById(reply[i]?.user);
+        if (replyUser) {
+          replies.push({
+            like: reply[i].like,
+            desc: reply[i].desc,
+            user: replyUser,
+            postedAt: reply[i].postedAt,
+          });
+        }
+      }
       Comments.push({
         user: user,
         replies: replies,

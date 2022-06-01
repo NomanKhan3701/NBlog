@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
 import "./Post.scss";
 import { BiLike, BiComment } from "react-icons/bi";
 import defaultImg from "../../assets/defaultAvatar.png";
 import moment from "moment";
+import { toast } from "react-toastify";
 import Loader from "../../components/Loader/Loader";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
@@ -16,6 +17,7 @@ const Post = () => {
   const [creator, setCreator] = useState([]);
   const [comments, setComments] = useState([]);
   const [currUser, setCurrUser] = useState([]);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     axios
@@ -38,17 +40,45 @@ const Post = () => {
             })
             .catch((e) => console.log(e));
         }
-        axios
-          .get(`${server_base_url}/post/getComments/${id}`, {})
-          .then((res) => {
-            setComments(res.data.Comments);
-            setLoadingComment(false);
-          })
-          .catch((e) => console.log(e));
+        getComments();
       })
       .catch((e) => console.log(e));
     setLoadingPost(false);
   }, []);
+
+  const getComments = () => {
+    axios
+      .get(`${server_base_url}/post/getComments/${id}`, {})
+      .then((res) => {
+        setComments(res.data.Comments);
+        setLoadingComment(false);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const postComment = () => {
+    const userId = localStorage.getItem("blogUser");
+    if (userId) {
+      if (comment.length < 1) {
+        toast.error("Comment field cant be empty", { position: "top-center" });
+      } else {
+        const copyComment = comment;
+        setComment("");
+        axios
+          .post(`${server_base_url}/comment/postComment/${id}`, {
+            userId: userId,
+            desc: copyComment,
+          })
+          .then((res) => {
+            console.log(res);
+            getComments();
+          })
+          .catch((e) => console.log(e));
+      }
+    } else {
+      toast.error("Please login to comment", { position: "top-center" });
+    }
+  };
 
   return (
     <div className="post-container">
@@ -80,9 +110,16 @@ const Post = () => {
       )}
       <div className="comment-container">
         <div className="top">
-          <img src={currUser.img} alt="" />
-          <input type="text" placeholder="Add Comment..." />
-          <div className="btn">Comment</div>
+          <img src={currUser.img ? currUser.img : defaultImg} alt="" />
+          <input
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            type="text"
+            placeholder="Add Comment..."
+          />
+          <div className="btn" onClick={postComment}>
+            Comment
+          </div>
         </div>
         {loadingComment ? (
           <div className="comment-loader">

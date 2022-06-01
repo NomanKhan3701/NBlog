@@ -191,58 +191,68 @@
 
     .comments {
       margin-top: 20px;
+      width: 98%;
+
       .comment-container {
+        display: flex;
+        justify-items: flex-start;
         margin-top: 20px;
+        width: 100%;
 
-        .comment-top {
-          display: flex;
-          justify-content: space-between;
+        .comment {
+          width: 100%;
 
-          .user-info {
-            .user-name-time {
-              display: flex;
-              align-items: center;
-
-              .username {
-                margin-right: 20px;
-                font-weight: 700;
-                font-size: 19px;
-              }
-
-              .time {
-                font-weight: 700;
-                color: gray;
-              }
-            }
-          }
-
-          .desc {
-            font-size: 16px;
-          }
-          img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 20px;
-          }
-        }
-
-        .comment-bottom {
-          margin-left: 80px;
-          margin-top: 10px;
-          display: flex;
-          .like {
-            font-size: 16px;
+          .comment-top {
             display: flex;
             align-items: center;
-            cursor: pointer;
-            span {
-              margin-left: 5px;
+
+            .user-info {
+              .user-name-time {
+                display: flex;
+                align-items: center;
+
+                .username {
+                  margin-right: 20px;
+                  font-weight: 700;
+                  font-size: 19px;
+                }
+
+                .time {
+                  font-weight: 700;
+                  color: gray;
+                }
+              }
+            }
+
+            .desc {
+              font-size: 16px;
+            }
+            img {
+              width: 45px;
+              height: 45px;
+              border-radius: 50%;
+              object-fit: cover;
+              margin-right: 20px;
             }
           }
-          .btn {
-            margin-left: 20px;
+
+          .comment-bottom {
+            margin-left: 80px;
+            margin-top: 10px;
+            display: flex;
+
+            .like {
+              font-size: 16px;
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              span {
+                margin-left: 5px;
+              }
+            }
+            .btn {
+              margin-left: 20px;
+            }
           }
         }
 

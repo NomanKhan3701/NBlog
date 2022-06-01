@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-const user = require("../models/user");
+const Post = require("../models/post");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -121,6 +121,24 @@ const updateUserName = async (req, res) => {
   }
 };
 
+const getBookmarked = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (user) {
+      const posts = await Post.find({
+        _id: {
+          $in: user.bookmark,
+        },
+      });
+      res.status(200).send({ posts });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(400).send({ message: "error" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUser,
@@ -130,4 +148,5 @@ module.exports = {
   addUserImage,
   login,
   updateUserName,
+  getBookmarked,
 };
