@@ -3,7 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.scss";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 const Login = () => {
@@ -37,7 +37,8 @@ const Login = () => {
         .then((res) => {
           localStorage.setItem("blogUser", res.data.user[0]._id);
           setLoading(false);
-          navigate("/");
+          navigate(0);
+          navigate("/", { replace: true });
         })
         .catch((e) => {
           setLoading(false);

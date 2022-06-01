@@ -72,11 +72,12 @@
           position: relative;
           color: white;
           text-align: center;
-          max-width: 300px;
+          max-width: 210px;
           overflow-wrap: break-word;
 
           @media screen and (max-width: 900px) {
             font-size: 20px;
+            max-width: 300px;
           }
 
           svg {

@@ -4,6 +4,7 @@
   justify-content: center;
   flex-wrap: wrap-reverse;
   max-width: 100%;
+  min-height: calc(100vh - 80px);
 
   @media screen and (max-width: 500px) {
     padding: 30px 10px;
@@ -15,9 +16,11 @@
 
   .posts-container {
     width: calc(100% - 400px);
+    margin-bottom: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    place-items: center;
+    justify-content: center;
+    height: max-content;
     grid-gap: 20px;
 
     @media screen and (max-width: 950px) {
@@ -30,6 +33,12 @@
       place-items: center;
       grid-gap: 20px;
     }
+  }
+
+  .login-false {
+    font-size: 40px;
+    margin: auto;
+    font-weight: 700;
   }
 
   .create-post-container {

@@ -142,6 +142,17 @@
         object-fit: cover;
       }
 
+      .logout {
+        margin-left: 20px;
+        cursor: pointer;
+        padding: 20px;
+        padding: 10px 40px;
+        background: black;
+        color: white;
+        border-radius: 20px;
+        font-size: 17px;
+      }
+
       .btn {
         padding: 10px 15px;
         background: rgb(40, 23, 38);
@@ -190,6 +201,7 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       transition: all 0.5s ease-out;
       overflow: auto;
+      overflow: auto;
 
       .sidebar-top {
         display: flex;
@@ -211,6 +223,7 @@
         .bottom-links {
           margin-top: 20px;
           display: flex;
+          flex-direction: column;
           justify-content: center;
           align-items: center;
 
@@ -224,6 +237,7 @@
             span {
               margin-left: 20px;
               font-size: 20px;
+              color: black;
             }
 
             img {
@@ -232,7 +246,19 @@
               border-radius: 50%;
               overflow: hidden;
               object-fit: cover;
+              outline: 1px solid black;
             }
+          }
+
+          .logout {
+            margin-top: 30px;
+            cursor: pointer;
+            padding: 20px;
+            padding: 10px 40px;
+            background: black;
+            color: white;
+            border-radius: 20px;
+            font-size: 17px;
           }
         }
 

@@ -10,8 +10,8 @@ const commentSchema = new mongoose.Schema({
     required: true,
   },
   like: {
-    type: Number,
-    default: 0,
+    type: [String],
+    default: [],
   },
   reply: {
     type: [String],

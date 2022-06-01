@@ -44,29 +44,22 @@ const getComments = async (req, res) => {
         $in: post.comment,
       },
     });
-    let Comments = [],
-      Comments2 = [],
-      singleComment = [],
-      replies = [],
-      user = [];
-
-      for(var i=0;i<comments.length;i++){
-        const guy = await User.findById(comments[i].user);
-        user = guy;
-        replies = await Comment.find({
-          _id: {
-            $in: comments[i].reply,
-          },
-        });
-        singleComment = [{ user: user, replies: replies }];
-        Comments.push({
-          user: singleComment[0].user,
-          replies: singleComment[0].replies,
-          desc: comments[i].desc,
-          postedAt: comments[i].postedAt,
-          like: comments[i].like,
-        });
-      }
+    let Comments = [];
+    for (var i = 0; i < comments.length; i++) {
+      const user = await User.findById(comments[i].user);
+      replies = await Comment.find({
+        _id: {
+          $in: comments[i].reply,
+        },
+      });
+      Comments.push({
+        user: user,
+        replies: replies,
+        desc: comments[i].desc,
+        postedAt: comments[i].postedAt,
+        like: comments[i].like,
+      });
+    }
     console.log("Comments", Comments);
     res.status(200).send({ Comments });
   } catch (e) {

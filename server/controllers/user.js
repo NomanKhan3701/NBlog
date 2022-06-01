@@ -29,7 +29,7 @@ const login = async (req, res) => {
     const user = await User.find({ name: name });
 
     if (user.length === 0)
-      return res.status(400).send({ message: "User dosent exist" });
+      return res.status(402).send({ message: "User dosent exist" });
     if (!bcrypt.compareSync(String(password), user[0].password))
       return res.status(400).send({ message: "Password dosent match" });
     res.status(200).send({ user });

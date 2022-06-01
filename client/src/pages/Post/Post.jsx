@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import "./Post.scss";
 import { BiLike, BiComment } from "react-icons/bi";
-import dummy from "../../assets/p1.jpg";
+import defaultImg from "../../assets/defaultAvatar.png";
 import moment from "moment";
 import Loader from "../../components/Loader/Loader";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
@@ -41,8 +41,7 @@ const Post = () => {
         axios
           .get(`${server_base_url}/post/getComments/${id}`, {})
           .then((res) => {
-            setComments(res.data.comments);
-            console.log(res.data.comments);
+            setComments(res.data.Comments);
             setLoadingComment(false);
           })
           .catch((e) => console.log(e));
@@ -89,117 +88,83 @@ const Post = () => {
           <div className="comment-loader">
             <Loader />
           </div>
-        ) : comments.length !== 0 ? (
+        ) : comments?.length === 0 ? (
           <div className="no-comments">
             No comments yet, be the first one to comment
           </div>
         ) : (
           <div className="comments">
-            <div className="comment-container">
-              <div className="comment">
-                <div className="comment-top">
-                  <img src={dummy} alt="" />
-                  <div className="user-info">
-                    <div className="user-name-time">
-                      <div className="username">Noman</div>
-                      <div className="time">12/02/2022</div>
+            {comments.map((comment, index) => {
+              return (
+                <div key={index} className="comment-container">
+                  <div className="comment">
+                    <div className="comment-top">
+                      {comment.user.img ? (
+                        <img src={comment.user.img} alt="" />
+                      ) : (
+                        <img src={defaultImg} alt="deafult" />
+                      )}
+                      <div className="user-info">
+                        <div className="user-name-time">
+                          <div className="username">{comment.user.name}</div>
+                          <div className="time">
+                            {moment(comment.postedAt).format("DD/MM/YYYY")}
+                          </div>
+                        </div>
+                        <div className="desc">{comment.desc}</div>
+                      </div>
                     </div>
-                    <div className="desc">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Aperiam perspiciatis, nobis excepturi voluptas magni
-                      quibusdam assumenda amet voluptatibus, distinctio autem
-                      iure perferendis! Placeat eius mollitia iure. Repudiandae,
-                      magnam? Maxime, optio?
+                    <div className="comment-bottom">
+                      <div className="like">
+                        <BiLike />
+                        <span>
+                          {comment.like.length === 0
+                            ? "Like"
+                            : comment.like.length}
+                        </span>
+                      </div>
+                      <div className="btn">Reply</div>
                     </div>
+                  </div>
+                  <div className="replies">
+                    {comment?.replies?.map((reply, index) => {
+                      return (
+                        <div key={index} className="reply">
+                          <div className="comment-top">
+                            {reply.user.img ? (
+                              <img src={reply.user.img} alt="" />
+                            ) : (
+                              <img src={defaultImg} alt="deafult" />
+                            )}
+                            <div className="user-info">
+                              <div className="user-name-time">
+                                <div className="username">
+                                  {reply.user.name}
+                                </div>
+                                <div className="time">
+                                  {moment(reply.postedAt).format("DD/MM/YYYY")}
+                                </div>
+                              </div>
+                              <div className="desc">{reply.desc}</div>
+                            </div>
+                          </div>
+                          <div className="comment-bottom">
+                            <div className="like">
+                              <BiLike />
+                              <span>
+                                {reply.like.length === 0
+                                  ? "Like"
+                                  : reply.like.length}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-                <div className="comment-bottom">
-                  <div className="like">
-                    <BiLike />
-                    <span>Like</span>
-                  </div>
-                  <div className="btn">Reply</div>
-                </div>
-              </div>
-
-              <div className="replies">
-                <div className="reply">
-                  <div className="comment-top">
-                    <img src={dummy} alt="" />
-                    <div className="user-info">
-                      <div className="user-name-time">
-                        <div className="username">Noman</div>
-                        <div className="time">12/02/2022</div>
-                      </div>
-
-                      <div className="desc">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Aperiam perspiciatis, nobis excepturi voluptas
-                        magni quibusdam assumenda amet voluptatibus, distinctio
-                        autem iure perferendis! Placeat eius mollitia iure.
-                        Repudiandae, magnam? Maxime, optio?
-                      </div>
-                    </div>
-                  </div>
-                  <div className="comment-bottom">
-                    <div className="like">
-                      <BiLike />
-                      <span>Like</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="reply">
-                  <div className="comment-top">
-                    <img src={dummy} alt="" />
-                    <div className="user-info">
-                      <div className="user-name-time">
-                        <div className="username">Noman</div>
-                        <div className="time">12/02/2022</div>
-                      </div>
-
-                      <div className="desc">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Aperiam perspiciatis, nobis excepturi voluptas
-                        magni quibusdam assumenda amet voluptatibus, distinctio
-                        autem iure perferendis! Placeat eius mollitia iure.
-                        Repudiandae, magnam? Maxime, optio?
-                      </div>
-                    </div>
-                  </div>
-                  <div className="comment-bottom">
-                    <div className="like">
-                      <BiLike />
-                      <span>Like</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="reply">
-                  <div className="comment-top">
-                    <img src={dummy} alt="" />
-                    <div className="user-info">
-                      <div className="user-name-time">
-                        <div className="username">Noman</div>
-                        <div className="time">12/02/2022</div>
-                      </div>
-
-                      <div className="desc">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Aperiam perspiciatis, nobis excepturi voluptas
-                        magni quibusdam assumenda amet voluptatibus, distinctio
-                        autem iure perferendis! Placeat eius mollitia iure.
-                        Repudiandae, magnam? Maxime, optio?
-                      </div>
-                    </div>
-                  </div>
-                  <div className="comment-bottom">
-                    <div className="like">
-                      <BiLike />
-                      <span>Like</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         )}
       </div>

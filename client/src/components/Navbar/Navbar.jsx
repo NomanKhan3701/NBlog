@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from "react";
 import "./Navbar.scss";
 import logo from "../../assets/logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { BsSearch, BsFillCartCheckFill } from "react-icons/bs";
 import { BiX } from "react-icons/bi";
 import { AiOutlineAlignLeft, AiFillHome, AiTwotoneHeart } from "react-icons/ai";
 import { IoMdCart } from "react-icons/io";
 import { MdMenuBook } from "react-icons/md";
-import userImg from "../../assets/p1.jpg";
+import defaultImg from "../../assets/defaultAvatar.png";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 const Navbar = ({ loggedIn, img }) => {
   const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate();
 
   const NavLinkStyle = ({ isActive }) => {
     return {
       color: isActive ? "black" : "rgb(115, 115, 115)",
     };
+  };
+
+  const logout = () => {
+    localStorage.removeItem("blogUser");
+    window.location.reload(false);
+    navigate("/", { replace: true });
   };
 
   return (
@@ -46,8 +53,15 @@ const Navbar = ({ loggedIn, img }) => {
         {loggedIn ? (
           <div className="right-links flex-cc">
             <NavLink style={NavLinkStyle} to="/profile">
-              <img src={img} alt="" />
+              {img ? (
+                <img src={img} alt="" />
+              ) : (
+                <img src={defaultImg} alt="default" />
+              )}
             </NavLink>
+            <div onClick={logout} className="logout">
+              Logout
+            </div>
           </div>
         ) : (
           <div className="right-links flex-cc">
@@ -115,9 +129,17 @@ const Navbar = ({ loggedIn, img }) => {
             {loggedIn ? (
               <div className="bottom-links">
                 <NavLink className="profile" style={NavLinkStyle} to="/profile">
-                  <img src={img} alt="" />
+                  {img ? (
+                    <img src={img} alt="" />
+                  ) : (
+                    <img src={defaultImg} alt="default" />
+                  )}
+
                   <span>Profile</span>
                 </NavLink>
+                <div onClick={logout} className="logout">
+                  Logout
+                </div>
               </div>
             ) : (
               <div className="bottom-links">

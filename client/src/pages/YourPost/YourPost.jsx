@@ -9,10 +9,12 @@ const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 const YourPost = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const userId = localStorage.getItem("blogUser");
     if (userId) {
+      setLoggedIn(true);
       axios
         .get(`${server_base_url}/post/getUserPost/${userId}`)
         .then((res) => {
@@ -25,27 +27,33 @@ const YourPost = () => {
 
   return (
     <div className="your-post">
-      <div className="posts-container">
-        {loading ? (
-          <Loader />
-        ) : (
-          posts.map((post) => {
-            return (
-
-                <PostCard
-                  id={post._id}
-                  title={post.title}
-                  desc={post.desc}
-                  img={post.img}
-                  like={post.like.length}
-                />
-            );
-          })
-        )}
-      </div>
-      <div className="create-post-container">
-        <CreatePost />
-      </div>
+      {loggedIn ? (
+        <>
+          <div className="posts-container">
+            {loading ? (
+              <Loader />
+            ) : (
+              posts.map((post, index) => {
+                return (
+                  <PostCard
+                    key={index}
+                    id={post._id}
+                    title={post.title}
+                    desc={post.desc}
+                    img={post.img}
+                    like={post.like.length}
+                  />
+                );
+              })
+            )}
+          </div>
+          <div className="create-post-container">
+            <CreatePost />
+          </div>
+        </>
+      ) : (
+        <div className="login-false">Please login to add posts</div>
+      )}
     </div>
   );
 };
