@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import FileUpload from "../FileUpload/FileUpload";
 import "./CreatePost.scss";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router";
 import axios from "axios";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 const CreatePost = () => {
+  const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [Img, setImg] = useState();
   const [post, setPost] = useState({
@@ -42,15 +43,16 @@ const CreatePost = () => {
           tags: tags,
           img: Img,
         })
-        .then((res) => console.log(res))
+        .then((res) => {
+          console.log(res);
+          navigate("/yourpost");
+        })
         .catch((e) => console.log(e));
     }
   };
 
   return (
-
     <>
-      <ToastContainer></ToastContainer>
       <form className="create-post">
         <h1>Create Post</h1>
         <div className="input">

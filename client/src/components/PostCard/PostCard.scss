@@ -5,6 +5,7 @@
   max-width: 400px;
   min-width: 300px;
   min-height: 400px;
+  max-height: 400px;
   border-radius: 5px;
   overflow: hidden;
   position: relative;
@@ -68,6 +69,18 @@
       justify-content: center;
       align-items: center;
       margin-right: 15px;
+    }
+
+    .like {
+      &.active {
+        color: blue;
+      }
+    }
+
+    .bookmark{
+      &.active svg{
+        color: blue;
+      }
     }
 
     svg {

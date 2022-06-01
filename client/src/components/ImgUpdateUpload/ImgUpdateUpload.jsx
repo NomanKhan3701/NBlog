@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import defaultImg from "../../assets/p1.jpg";
+import defaultImg from "../../assets/defaultAvatar.png";
 import "./ImgUpdateUpload.scss";
 
 const FileUpload = (props) => {

@@ -16,6 +16,7 @@
 
   .posts-container {
     width: calc(100% - 400px);
+    min-height: calc(100vh - 80px - 60px);
     margin-bottom: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -32,6 +33,16 @@
       grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
       place-items: center;
       grid-gap: 20px;
+    }
+
+    .no-post {
+      font-size: 40px;
+      font-weight: 700;
+      margin: auto;
+    }
+
+    .post-loader {
+      margin: auto;
     }
   }
 

@@ -22,11 +22,11 @@ const Post = () => {
       .get(`${server_base_url}/post/${id}`)
       .then((res) => {
         setPost(res.data.post);
+        setLoadingPost(false);
         axios
           .get(`${server_base_url}/user/${res.data.post.createdBy}`)
           .then((res) => {
             setCreator(res.data.user);
-            setLoadingPost(false);
           })
           .catch((e) => console.log(e));
         const userId = localStorage.getItem("blogUser");

@@ -5,6 +5,8 @@ import "./App.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
+import "react-toastify/dist/ReactToastify.css";
+
 import UserDashboard, {
   Bookmarked,
   Liked,
@@ -15,6 +17,7 @@ import Contact from "./pages/Contact/Contact";
 import YourPost from "./pages/YourPost/YourPost";
 import axios from "axios";
 import Loader from "./components/Loader/Loader";
+import { ToastContainer } from "react-toastify";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 function App() {
@@ -24,17 +27,20 @@ function App() {
 
   useEffect(() => {
     const userId = localStorage.getItem("blogUser");
-    if (userId) setLoggedIn(true);
-    axios
-      .get(`${server_base_url}/user/getUserImage/${userId}`)
-      .then((res) => {
-        setUserImg(res.data.userImage[0].img);
-      })
-      .catch((e) => console.log(e));
+    if (userId) {
+      setLoggedIn(true);
+      axios
+        .get(`${server_base_url}/user/getUserImage/${userId}`)
+        .then((res) => {
+          setUserImg(res.data.userImage[0].img);
+        })
+        .catch((e) => console.log(e));
+    }
   }, []);
 
   return (
     <div className="App">
+      <ToastContainer />
       <Navbar loggedIn={loggedIn} img={userImg} />
       <Routes>
         <Route path="/" element={<Home />} />

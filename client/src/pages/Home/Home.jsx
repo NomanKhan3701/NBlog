@@ -15,9 +15,12 @@ const Home = () => {
       .get(`${server_base_url}/post/`)
       .then((res) => {
         setPosts(res.data.posts);
+        setLoading(false);
       })
-      .catch((e) => console.log(e));
-    setLoading(false);
+      .catch((e) => {
+        console.log(e);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -37,6 +40,7 @@ const Home = () => {
                 desc={post.desc}
                 img={post.img}
                 like={post.like.length}
+                createdBy={post.createdBy}
               />
             );
           })

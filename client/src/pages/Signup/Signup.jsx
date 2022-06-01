@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Signup.scss";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router";
 import axios from "axios";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
@@ -62,7 +61,6 @@ const Signup = () => {
 
   return (
     <>
-      <ToastContainer></ToastContainer>
       <form className="signup-container">
         <div className="signup">
           <h1>SignUp</h1>

@@ -9,6 +9,8 @@ const {
   getAllPosts,
   addPost,
   getUserPost,
+  checkLike,
+  checkBookmark
 } = require("../controllers/post");
 
 router.get("/", getAllPosts);
@@ -17,7 +19,9 @@ router.get("/getUserPost/:id", getUserPost);
 router.get("/getComments/:id", getComments);
 router.post("/createPost/:id", addPost);
 router.patch("/updateLike/:id", updateLike);
+router.get("/checkLike/:id",checkLike);
 router.patch("/addBookmark/:id", addBookmark);
+router.get("/checkbookmark/:id",checkBookmark);
 router.delete("/deletePost/:id", deletePost);
 
 module.exports = router;

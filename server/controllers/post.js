@@ -60,7 +60,6 @@ const getComments = async (req, res) => {
         like: comments[i].like,
       });
     }
-    console.log("Comments", Comments);
     res.status(200).send({ Comments });
   } catch (e) {
     console.log(e);
@@ -98,16 +97,22 @@ const updateLike = async (req, res) => {
     const user = await User.findById(userId);
     if (user === null || post === null) {
       return res.status(400).send({ message: "Not valid params" });
+    } else if (post.createdBy == userId) {
+      res.send({ sameUser: true, liked: false, count: post.like.length });
     } else if (post.like.includes(userId)) {
       post.like = post.like.filter((idOfUser) => {
         return idOfUser != userId;
       });
       await post.save();
-      return res.status(200).send({ message: "UnLiked the post" });
+      return res
+        .status(200)
+        .send({ sameUser: false, liked: false, count: post.like.length });
     } else {
       post.like.push(userId);
       await post.save();
-      res.status(200).send({ message: "Liked the post" });
+      res
+        .status(200)
+        .send({ sameUser: false, liked: true, count: post.like.length });
     }
   } catch (e) {
     console.log(e);
@@ -127,11 +132,11 @@ const addBookmark = async (req, res) => {
         return idOfPost != postId;
       });
       await user.save();
-      return res.status(200).send({ message: "Bookmark removed" });
+      return res.status(200).send({ bookmarked: false });
     } else {
       user.bookmark.push(postId);
       await user.save();
-      res.status(200).send({ message: "Added to bookmark" });
+      res.status(200).send({ bookmarked: true });
     }
   } catch (e) {
     console.log(e);
@@ -158,7 +163,6 @@ const deletePost = async (req, res) => {
       return post != postId;
     });
 
-    console.log(comments[1].reply.length);
     comments.forEach(async (comment) => {
       comment.reply.forEach(async (reply) => {
         await Comment.findByIdAndDelete(reply);
@@ -175,6 +179,34 @@ const deletePost = async (req, res) => {
   }
 };
 
+const checkLike = async (req, res) => {
+  try {
+    const userId = req.query.id;
+    const postId = req.params.id;
+    const post = await Post.findById(postId);
+    if (post.like.includes(userId)) res.status(200).send({ liked: true });
+    else res.status(200).send({ liked: false });
+  } catch (e) {
+    console.log(e);
+    res.status(400).send({ message: "error" });
+  }
+};
+
+const checkBookmark = async (req, res) => {
+  try {
+    const userId = req.query.id;
+    const postId = req.params.id;
+    const user = await User.findById(userId);
+    if (user === null) res.status(200).send({ bookmarked: false });
+    if (user.bookmark.includes(postId))
+      res.status(200).send({ bookmarked: true });
+    else res.status(200).send({ bookmarked: false });
+  } catch (e) {
+    console.log(e);
+    res.status(400).send({ message: "error" });
+  }
+};
+
 module.exports = {
   getAllPosts,
   getComments,
@@ -184,4 +216,6 @@ module.exports = {
   updateLike,
   deletePost,
   getUserPost,
+  checkBookmark,
+  checkLike,
 };
