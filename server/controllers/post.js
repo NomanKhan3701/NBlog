@@ -53,7 +53,6 @@ const getComments = async (req, res) => {
           $in: comments[i].reply,
         },
       }).sort({ postedAt: -1 });
-      console.log(reply);
       for (let j = 0; j < reply.length; j++) {
         console.log(j, " ---> ", reply[i]);
         const replyUser = await User.findById(reply[i]?.user);
