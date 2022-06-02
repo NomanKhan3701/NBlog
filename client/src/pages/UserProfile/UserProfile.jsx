@@ -166,7 +166,44 @@ export const Bookmarked = () => {
 };
 
 export const Liked = () => {
-  return <div className="liked-container"></div>;
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("blogUser");
+    axios
+      .get(`${server_base_url}/user/getLiked/${userId}`)
+      .then((res) => {
+        setPosts(res.data.posts);
+        setLoading(false);
+      })
+      .catch((e) => console.log(e));
+  }, []);
+  return (
+    <div className="liked-container">
+      {loading ? (
+        <div className="liked-loader">
+          <Loader />
+        </div>
+      ) : posts.length === 0 ? (
+        <div className="no-liked">No bookmark</div>
+      ) : (
+        posts.map((post, index) => {
+          return (
+            <PostCard
+              id={post._id}
+              key={index}
+              title={post.title}
+              desc={post.desc}
+              img={post.img}
+              like={post.like.length}
+              createdBy={post.createdBy}
+            />
+          );
+        })
+      )}
+    </div>
+  );
 };
 
 export default UserDashboard;

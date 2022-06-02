@@ -139,6 +139,21 @@ const getBookmarked = async (req, res) => {
   }
 };
 
+const getLiked = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const posts = await Post.find({
+      like: {
+        $all: userId,
+      },
+    });
+    res.status(200).send({ posts });
+  } catch (e) {
+    console.log(e);
+    res.status(400).send({ message: "error" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUser,
@@ -149,4 +164,5 @@ module.exports = {
   login,
   updateUserName,
   getBookmarked,
+  getLiked,
 };

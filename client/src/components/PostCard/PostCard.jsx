@@ -11,8 +11,8 @@ import axios from "axios";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 const PostCard = (props) => {
-  const likeRef = useRef();
-  const bookmarkRef = useRef();
+  const likeRef = useRef(null);
+  const bookmarkRef = useRef(null);
   const [UserId, setUserId] = useState();
   const [likeCount, setLikeCount] = useState(props.like);
 
