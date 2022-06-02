@@ -8,11 +8,28 @@ import { AiOutlineAlignLeft, AiFillHome, AiTwotoneHeart } from "react-icons/ai";
 import { IoMdCart } from "react-icons/io";
 import { MdMenuBook } from "react-icons/md";
 import defaultImg from "../../assets/defaultAvatar.png";
+import axios from "axios";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 const Navbar = ({ loggedIn, img }) => {
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+
+  const searchPost = async () => {
+    if (search.trim() || tags) {
+      const tags = await search.split(" ").join(",");
+      navigate(`/posts/search?searchQuery=${search || "none"}&tags=${tags}`);
+    } else {
+      navigate("/");
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      searchPost();
+    }
+  };
 
   const NavLinkStyle = ({ isActive }) => {
     return {
@@ -32,7 +49,13 @@ const Navbar = ({ loggedIn, img }) => {
         <img src={logo} alt="blog logo" />
       </div>
       <div className="search-container">
-        <input type="text" placeholder="Search post..." />
+        <input
+          onKeyDown={handleKeyPress}
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
+          type="text"
+          placeholder="Search post..."
+        />
         <BsSearch className="i" />
       </div>
       <div className="links">

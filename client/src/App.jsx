@@ -44,8 +44,10 @@ function App() {
       <Navbar loggedIn={loggedIn} img={userImg} />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/posts/search" element={<Home />} />
         <Route path="/yourpost" element={<YourPost />} />
         <Route path="/post/:id" element={<Post />} />
+        <Route path="/post/:id/comment" element={<Post />} />
         <Route path="/profile" element={<UserDashboard />}>
           <Route path="bookmark" element={<Bookmarked />} />
           <Route path="like" element={<Liked />} />

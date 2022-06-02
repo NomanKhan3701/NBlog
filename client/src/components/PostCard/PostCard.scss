@@ -9,6 +9,7 @@
   border-radius: 5px;
   overflow: hidden;
   position: relative;
+  z-index: 1;
 
   @media screen and (max-width: 500px) {
     max-width: 310px;
@@ -64,6 +65,12 @@
     height: 60px;
     background: rgb(230, 227, 227);
 
+    .deleting {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+    }
+
     .i:not(last-child) {
       display: flex;
       justify-content: center;
@@ -77,8 +84,8 @@
       }
     }
 
-    .bookmark{
-      &.active svg{
+    .bookmark {
+      &.active svg {
         color: blue;
       }
     }

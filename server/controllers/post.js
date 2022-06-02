@@ -158,7 +158,7 @@ const addBookmark = async (req, res) => {
 };
 const deletePost = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.query.id;
     const postId = req.params.id;
     const user = await User.findById(userId);
     const post = await Post.findById(postId);
@@ -168,7 +168,7 @@ const deletePost = async (req, res) => {
       },
     });
 
-    if (user === null || post === null || comments === null) {
+    if (user === null || post === null) {
       return res.status(400).send("Invalid params");
     }
 
@@ -187,7 +187,7 @@ const deletePost = async (req, res) => {
     await Post.findByIdAndRemove(postId);
     res.status(200).send({ message: "deleted" });
   } catch (e) {
-    console.log(e);
+    console.log("error ---> ", e);
     res.status(400).send({ message: "error" });
   }
 };
@@ -220,6 +220,21 @@ const checkBookmark = async (req, res) => {
   }
 };
 
+const getPostsBySearch = async (req, res) => {
+  try {
+    const { searchQuery, tags } = req.query;
+    const title = new RegExp(searchQuery, "i");
+    const posts = await Post.find({
+      $or: [{ title: String(title) }, { tags: { $in: tags.split(",") } }],
+    });
+
+    res.status(200).send({ posts });
+  } catch (e) {
+    console.log("error ---> ", e);
+    res.status(400).send({ message: "error" });
+  }
+};
+
 module.exports = {
   getAllPosts,
   getComments,
@@ -231,4 +246,5 @@ module.exports = {
   getUserPost,
   checkBookmark,
   checkLike,
+  getPostsBySearch,
 };

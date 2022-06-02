@@ -44,8 +44,12 @@ const CreatePost = () => {
           img: Img,
         })
         .then((res) => {
-          console.log(res);
-          navigate("/yourpost");
+          const url = window.location.pathname.split("/");
+          console.log(url);
+          if (url.length > 0 && url[1] === "yourpost") {
+            window.location.reload(false);
+          } else navigate("/yourpost");
+          toast.success("Post created succesfully", { position: "top-center" });
         })
         .catch((e) => console.log(e));
     }

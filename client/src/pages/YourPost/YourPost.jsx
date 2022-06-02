@@ -4,12 +4,14 @@ import PostCard from "../../components/PostCard/PostCard";
 import axios from "axios";
 import "./YourPost.scss";
 import Loader from "../../components/Loader/Loader";
+import { useNavigate } from "react-router-dom";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 const YourPost = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userId = localStorage.getItem("blogUser");
@@ -23,7 +25,7 @@ const YourPost = () => {
         })
         .catch((e) => console.log(e));
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="your-post">

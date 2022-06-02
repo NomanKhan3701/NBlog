@@ -18,12 +18,20 @@ const Post = () => {
   const [comments, setComments] = useState([]);
   const [currUser, setCurrUser] = useState([]);
   const [comment, setComment] = useState("");
+  const commentRef = useRef();
 
   useEffect(() => {
     axios
-      .get(`${server_base_url}/post/${id}`)
+      .get(`${server_base_url}/post/getPost/${id}`)
       .then((res) => {
         setPost(res.data.post);
+        const url = window.location.pathname.split("/");
+        if (url.length > 3 && url[3] === "comment") {
+          window.scrollTo({
+            top: commentRef.current.offsetTop - 100,
+            behavior: "smooth",
+          });
+        }
         setLoadingPost(false);
         axios
           .get(`${server_base_url}/user/${res.data.post.createdBy}`)
@@ -108,7 +116,7 @@ const Post = () => {
           </div>
         </div>
       )}
-      <div className="comment-container">
+      <div ref={commentRef} className="comment-container">
         <div className="top">
           <img src={currUser.img ? currUser.img : defaultImg} alt="" />
           <input
@@ -130,7 +138,7 @@ const Post = () => {
             No comments yet, be the first one to comment
           </div>
         ) : (
-          <div className="comments">
+          <div id="comment" className="comments">
             {comments.map((comment, index) => {
               return (
                 <div key={index} className="comment-container">
