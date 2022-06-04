@@ -1,7 +1,7 @@
 const express = require("express");
 const Comment = require("../models/comment");
 const User = require("../models/user");
-const Post = require("../models/Post");
+const Post = require("../models/post");
 
 const getAllComments = async (req, res) => {
   try {
@@ -52,7 +52,7 @@ const addComment = async (req, res) => {
   }
 };
 
-const addReply = async (req,res) => {
+const addReply = async (req, res) => {
   const { userId, desc } = req.body;
   const commentId = req.params.id;
 

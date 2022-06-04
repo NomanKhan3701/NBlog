@@ -25,18 +25,18 @@ const Post = () => {
       .get(`${server_base_url}/post/getPost/${id}`)
       .then((res) => {
         setPost(res.data.post);
-        const url = window.location.pathname.split("/");
-        if (url.length > 3 && url[3] === "comment") {
-          window.scrollTo({
-            top: commentRef.current.offsetTop - 100,
-            behavior: "smooth",
-          });
-        }
         setLoadingPost(false);
         axios
           .get(`${server_base_url}/user/${res.data.post.createdBy}`)
           .then((res) => {
             setCreator(res.data.user);
+            const url = window.location.pathname.split("/");
+            if (url.length > 3 && url[3] === "comment") {
+              window.scrollTo({
+                top: commentRef.current.offsetTop - 100,
+                behavior: "smooth",
+              });
+            }
           })
           .catch((e) => console.log(e));
         const userId = localStorage.getItem("blogUser");

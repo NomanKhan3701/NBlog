@@ -21,27 +21,11 @@ import { ToastContainer } from "react-toastify";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [userImg, setUserImg] = useState("");
-
-  useEffect(() => {
-    const userId = localStorage.getItem("blogUser");
-    if (userId) {
-      setLoggedIn(true);
-      axios
-        .get(`${server_base_url}/user/getUserImage/${userId}`)
-        .then((res) => {
-          setUserImg(res.data.userImage[0].img);
-        })
-        .catch((e) => console.log(e));
-    }
-  }, []);
 
   return (
     <div className="App">
       <ToastContainer />
-      <Navbar loggedIn={loggedIn} img={userImg} />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/posts/search" element={<Home />} />

@@ -5,7 +5,11 @@ const Comment = require("../models/comment");
 
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find({});
+    const skip = req.query.skip ? Number(req.query.skip) : 0;
+    const DEFAULT_LIMIT = 6;
+
+    const posts = await Post.find({}).skip(skip).limit(DEFAULT_LIMIT);
+
     res.status(200).send({ posts });
   } catch (e) {
     console.log(e);
@@ -44,6 +48,7 @@ const getComments = async (req, res) => {
         $in: post.comment,
       },
     }).sort({ postedAt: -1 });
+
     let Comments = [];
     for (let i = 0; i < comments.length; i++) {
       const user = await User.findById(comments[i].user);

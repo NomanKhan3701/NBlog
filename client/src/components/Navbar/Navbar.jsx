@@ -11,10 +11,25 @@ import defaultImg from "../../assets/defaultAvatar.png";
 import axios from "axios";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
-const Navbar = ({ loggedIn, img }) => {
+const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userImg, setUserImg] = useState("");
+
+  useEffect(() => {
+    const userId = localStorage.getItem("blogUser");
+    if (userId) {
+      setLoggedIn(true);
+      axios
+        .get(`${server_base_url}/user/getUserImage/${userId}`)
+        .then((res) => {
+          setUserImg(res.data.userImage[0].img);
+        })
+        .catch((e) => console.log(e));
+    }
+  }, []);
 
   const searchPost = async () => {
     if (search.trim() || tags) {
@@ -76,8 +91,8 @@ const Navbar = ({ loggedIn, img }) => {
         {loggedIn ? (
           <div className="right-links flex-cc">
             <NavLink style={NavLinkStyle} to="/profile">
-              {img ? (
-                <img src={img} alt="" />
+              {userImg ? (
+                <img src={userImg} alt="" />
               ) : (
                 <img src={defaultImg} alt="default" />
               )}
@@ -152,8 +167,8 @@ const Navbar = ({ loggedIn, img }) => {
             {loggedIn ? (
               <div className="bottom-links">
                 <NavLink className="profile" style={NavLinkStyle} to="/profile">
-                  {img ? (
-                    <img src={img} alt="" />
+                  {userImg ? (
+                    <img src={userImg} alt="" />
                   ) : (
                     <img src={defaultImg} alt="default" />
                   )}

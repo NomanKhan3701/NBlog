@@ -28,7 +28,7 @@ const PostCard = (props) => {
           params: { id: userId },
         })
         .then((res) => {
-          if (res.data.liked) likeRef.current.classList.add("active");
+          if (res.data.liked) likeRef?.current?.classList?.add("active");
         })
         .catch((e) => console.log(e));
       axios
@@ -36,7 +36,8 @@ const PostCard = (props) => {
           params: { id: userId },
         })
         .then((res) => {
-          if (res.data.bookmarked) bookmarkRef.current.classList.add("active");
+          if (res.data.bookmarked)
+            bookmarkRef?.current?.classList?.add("active");
         })
         .catch((e) => console.log(e));
     }
@@ -46,15 +47,16 @@ const PostCard = (props) => {
     const userId = localStorage.getItem("blogUser");
     if (userId) {
       if (userId != props.createdBy) {
-        likeRef?.current.classList.toggle("active");
+        likeRef?.current?.classList?.toggle("active");
         axios
           .patch(`${server_base_url}/post/updateLike/${props.id}`, {
             userId: userId,
           })
           .then((res) => {
-            if (res.data.sameUser) likeRef?.current.classList.remove("active");
-            else if (res.data.liked) likeRef?.current.classList.add("active");
-            else likeRef.current.classList.remove("active");
+            if (res.data.sameUser)
+              likeRef?.current?.classList?.remove("active");
+            else if (res.data.liked) likeRef?.current?.classList?.add("active");
+            else likeRef?.current?.classList?.remove("active");
             setLikeCount(res.data.count);
           })
           .catch((e) => console.log(e));
@@ -73,8 +75,9 @@ const PostCard = (props) => {
           userId: userId,
         })
         .then((res) => {
-          if (res.data.bookmarked) bookmarkRef?.current.classList.add("active");
-          else bookmarkRef?.current.classList.remove("active");
+          if (res.data.bookmarked)
+            bookmarkRef?.current?.classList?.add("active");
+          else bookmarkRef?.current?.classList?.remove("active");
         })
         .catch((e) => console.log(e));
     } else {
@@ -108,7 +111,9 @@ const PostCard = (props) => {
       <Link to={`/post/${props.id}`}>
         <div className="img">
           <img src={props.img} alt="" />
-          <div className="title">{props.title}</div>
+          <div className="title">
+            <LimitChar limit={40} word={props.title} />
+          </div>
         </div>
       </Link>
 

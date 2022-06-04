@@ -11,7 +11,35 @@ const FileUpload = (props) => {
     fileRef.current.click();
   };
 
-  const handleFile = (e) => {
+  const process = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = function (event) {
+      const imgElement = document.createElement("img");
+      imgElement.src = event.target.result;
+
+      imgElement.onload = function (e) {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 600;
+
+        const scaleSize = MAX_WIDTH / e.target.width;
+        canvas.width = MAX_WIDTH;
+        canvas.height = e.target.height * scaleSize;
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+
+        const srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+        setprevImg(srcEncoded);
+        props.setPrevImg(srcEncoded);
+      };
+    };
+  };
+
+  const handleFile = async (e) => {
     e.preventDefault();
     for (let i = 0; i < e.target.files.length; i++) {
       props.setFiles((prevFiles) => {
@@ -21,12 +49,7 @@ const FileUpload = (props) => {
         return [...prevFiles, e.target.files[i]];
       });
     }
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      setprevImg(e.target.result);
-      props.setPrevImg(e.target.result);
-    };
-    reader.readAsDataURL(e.target.files[0]);
+    await process(e.target.files[0]);
   };
 
   const handleDrag = (e, type) => {
@@ -36,7 +59,7 @@ const FileUpload = (props) => {
     else if (type === "dragLeave") dragRef.current.classList.remove("active");
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     dragRef.current.classList.remove("active");
@@ -50,12 +73,7 @@ const FileUpload = (props) => {
         return [...prevFiles, uploadedFiles[i]];
       });
     }
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      setPrevImg(e.target.result);
-    };
-    reader.readAsDataURL(uploadedFiles[0]);
-
+    await process(uploadedFiles[0]);
     dragRef.current.classList.remove("uploading");
   };
 

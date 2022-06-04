@@ -198,10 +198,6 @@
       width: 100%;
       min-height: 400px;
       padding: 20px;
-
-      @media screen and (max-width: 900px) {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      }
     }
 
     .liked-container {
@@ -212,10 +208,6 @@
       width: 100%;
       min-height: 400px;
       padding: 20px;
-
-      @media screen and (max-width: 900px) {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      }
     }
   }
 }
