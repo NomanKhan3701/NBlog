@@ -96,7 +96,6 @@ const PostCard = (props) => {
         .then((res) => {
           setDeleting(false);
           const url = window.location.pathname.split("/");
-          console.log(url);
           if (url.length > 0 && url[1] === "yourpost") {
             window.location.reload(false);
           } else navigate("/yourpost");

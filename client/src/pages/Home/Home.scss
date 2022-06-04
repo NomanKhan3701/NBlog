@@ -1,6 +1,7 @@
 .home {
   padding: 10px 80px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
 
@@ -19,12 +20,20 @@
       text-align: center;
       margin-top: 30px;
     }
+  }
 
-    .loader {
-      height: calc(100vh - 80px - 30px * 2 - 10px * 2);
-      width: 100%;
-      display: grid;
-      place-items: center;
-    }
+  .loader {
+    width: 100%;
+    display: grid;
+    place-items: center;
+    margin: 40px 0;
+  }
+
+  .end {
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    margin: 30px 0;
   }
 }

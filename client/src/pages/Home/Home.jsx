@@ -10,22 +10,54 @@ const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
   const [searchParams] = useSearchParams("");
   const [skip, setSkip] = useState(0);
+  const [intersected, setIntersected] = useState(false);
   const navigate = useNavigate();
-  const postScrollRef = useRef();
-  const [count, setCount] = useState(0);
+  const intersectionDiv = useRef();
+  const options = {
+    rootMargin: "100px",
+  };
+
+  const setSkipToLoadMore = async () => {
+    if (skip != posts.length && !loading) {
+      setSkip(posts.length);
+      setIntersected(false);
+    }
+  };
+
+  if (intersected) {
+    setSkipToLoadMore();
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIntersected(true);
+      },
+      [options]
+    );
+
+    if (intersectionDiv.current) {
+      observer.observe(intersectionDiv.current);
+    }
+
+    return () => {
+      if (intersectionDiv.current) observer.unobserve(intersectionDiv.current);
+    };
+  }, []);
 
   useEffect(() => {
     const url = window.location.pathname.split("/");
     if (
       !(url.length > 2 && url[1] === "posts" && url[2] === "search") &&
-      skip != 0
+      posts.length != 0
     ) {
       getHomePosts(0);
     } else if (
       !(url.length > 2 && url[1] === "posts" && url[2] === "search") &&
-      skip === 0
+      posts.length === 0
     ) {
       getHomePosts(1);
     }
@@ -62,7 +94,7 @@ const Home = () => {
     axios
       .get(`${server_base_url}/post/`, { params: { skip: skip } })
       .then((res) => {
-        console.log("fired");
+        if (res.data.posts.length === 0) setHasMore(false);
         if (type == 0)
           setPosts((prevPosts) => [...prevPosts, ...res.data.posts]);
         if (type === 1) setPosts(res.data.posts);
@@ -74,26 +106,10 @@ const Home = () => {
       });
   };
 
-  const handleScroll = (e) => {
-    const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    console.log("fired");
-    if (offsetHeight + scrollTop >= scrollHeight) {
-      setSkip(posts.length);
-    }
-  };
-
   return (
     <div className="home">
-      <div
-        ref={postScrollRef}
-        className="posts-container flex-cc"
-        onScroll={handleScroll}
-      >
-        {loading ? (
-          <div className="loader">
-            <Loader />
-          </div>
-        ) : posts.length === 0 ? (
+      <div className="posts-container flex-cc">
+        {posts.length === 0 && !loading ? (
           <div className="no-posts">No relevant Posts</div>
         ) : (
           posts?.map((post, index) => {
@@ -111,6 +127,14 @@ const Home = () => {
           })
         )}
       </div>
+      <div ref={intersectionDiv} className="intersection-observer"></div>
+      {hasMore ? (
+        <div className="loader">
+          <Loader />
+        </div>
+      ) : (
+        <div className="end">End Of Posts</div>
+      )}
     </div>
   );
 };
