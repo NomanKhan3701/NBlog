@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader/Loader";
 const server_base_url = import.meta.env.VITE_SERVER_BASE_URL;
 
 const Login = () => {
@@ -36,8 +37,7 @@ const Login = () => {
         .then((res) => {
           localStorage.setItem("blogUser", res.data.user[0]._id);
           setLoading(false);
-          navigate(0);
-          navigate("/", { replace: true });
+          window.location.reload();
         })
         .catch((e) => {
           setLoading(false);
@@ -50,7 +50,11 @@ const Login = () => {
   };
 
   if (loading) {
-    return <h1>Loding...</h1>;
+    return (
+      <div className="loading">
+        <Loader />
+      </div>
+    );
   }
 
   return (

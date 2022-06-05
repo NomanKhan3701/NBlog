@@ -54,8 +54,7 @@ const Navbar = () => {
 
   const logout = () => {
     localStorage.removeItem("blogUser");
-    window.location.reload(false);
-    navigate("/", { replace: true });
+    window.location.reload();
   };
 
   return (

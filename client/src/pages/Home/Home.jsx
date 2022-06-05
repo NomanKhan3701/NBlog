@@ -61,7 +61,7 @@ const Home = () => {
     ) {
       getHomePosts(1);
     }
-  }, [skip, searchParams]);
+  }, [skip, navigate, searchParams]);
 
   useEffect(() => {
     const url = window.location.pathname.split("/");
@@ -109,7 +109,11 @@ const Home = () => {
   return (
     <div className="home">
       <div className="posts-container flex-cc">
-        {posts.length === 0 && !loading ? (
+        {loading && window.location.pathname.split("/").length > 2 ? (
+          <div className="loader">
+            <Loader />
+          </div>
+        ) : posts.length === 0 && !loading ? (
           <div className="no-posts">No relevant Posts</div>
         ) : (
           posts?.map((post, index) => {
@@ -128,12 +132,12 @@ const Home = () => {
         )}
       </div>
       <div ref={intersectionDiv} className="intersection-observer"></div>
-      {hasMore ? (
+      {loading && window.location.pathname.split("/").length < 3 ? (
         <div className="loader">
           <Loader />
         </div>
       ) : (
-        <div className="end">End Of Posts</div>
+        ""
       )}
     </div>
   );
